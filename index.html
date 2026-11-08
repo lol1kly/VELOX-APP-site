@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velox Launcher — Современный Minecraft Лаунчер</title>
+    <!-- Подключаем Tailwind CSS для быстрого и стильного оформления -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0b0f19',
+                        cardbg: '#131827',
+                        accent: '#6366f1',
+                        accenthover: '#4f46e5'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-darkbg text-gray-100 font-sans min-h-screen flex flex-col justify-between selection:bg-accent selection:text-white">
+
+    <!-- Шапка / Навигация -->
+    <header class="w-full max-w-5xl mx-auto px-6 py-6 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center font-black text-xl shadow-lg shadow-indigo-500/30">V</div>
+            <span class="text-xl font-bold tracking-wide">Velox App</span>
+        </div>
+        <nav class="flex items-center space-x-4">
+            <a href="https://github.com/lol1kly/VELOX-APP" target="_blank" class="text-sm text-gray-400 hover:text-white transition">GitHub</a>
+        </nav>
+    </header>
+
+    <!-- Главный контент (Hero-секция) -->
+    <main class="w-full max-w-4xl mx-auto px-6 py-12 flex flex-col items-center text-center my-auto">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-xs font-semibold mb-6 border border-indigo-500/20">
+            <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+            Релиз 4.3.0 доступен
+        </div>
+        
+        <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+            Современный лаунчер для <span class="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Minecraft: Java Edition</span>
+        </h1>
+        
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed">
+            Управляй сборками, модами из Modrinth, инстансами и аккаунтами через чистый, быстрый и удобный интерфейс на Python и HTML.
+        </p>
+
+        <!-- Динамическая кнопка скачивания -->
+        <div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
+            <a id="download-btn" href="https://github.com/lol1kly/VELOX-APP/releases/latest" target="_blank" 
+               class="px-8.5 py-4 rounded-xl bg-accent hover:bg-accenthover text-white font-bold text-base shadow-xl shadow-indigo-600/20 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Скачать для Windows
+            </a>
+            <a href="https://github.com/lol1kly/VELOX-APP" target="_blank" 
+               class="px-8.5 py-4 rounded-xl bg-cardbg hover:bg-gray-800 text-gray-300 font-semibold text-base border border-gray-800 transition-all">
+                Исходный код
+            </a>
+        </div>
+
+        <!-- Фишки лаунчера -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-20 text-left">
+            <div class="p-6 rounded-2xl bg-cardbg border border-gray-800/80">
+                <div class="text-indigo-400 font-bold text-lg mb-2">⚡ Моды с Modrinth</div>
+                <p class="text-gray-400 text-sm">Удобный поиск и установка модов, ресурспаков и шейдеров прямо в интерфейсе.</p>
+            </div>
+            <div class="p-6 rounded-2xl bg-cardbg border border-gray-800/80">
+                <div class="text-indigo-400 font-bold text-lg mb-2">🛡️ Изоляция сборок</div>
+                <p class="text-gray-400 text-sm">Каждая сборка изолирована, файлы и настройки не перемешиваются между собой.</p>
+            </div>
+            <div class="p-6 rounded-2xl bg-cardbg border border-gray-800/80">
+                <div class="text-indigo-400 font-bold text-lg mb-2">🔑 Безопасный вход</div>
+                <p class="text-gray-400 text-sm">Поддержка Microsoft OAuth, Ely.by и оффлайн-профилей без рисков для данных.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Футер -->
+    <footer class="w-full max-w-5xl mx-auto px-6 py-6 border-t border-gray-800/60 text-center text-xs text-gray-500">
+        Velox Launcher — независимый проект, не связанный с Mojang или Microsoft.
+    </footer>
+<script>
+    fetch('https://api.github.com/repos/lol1kly/VELOX-APP/releases/latest')
+        .then(res => res.json())
+        .then(data => {
+            // Находит первый .exe файл в релизе и подставляет его ссылку на кнопку
+            const asset = data.assets.find(a => a.name.endsWith('.exe'));
+            if (asset) {
+                document.getElementById('download-btn').href = asset.browser_download_url;
+            }
+        }).catch(err => console.log('Не удалось подтянуть прямой файл релиза, используется стандартная ссылка.'));
+</script>
+</body>
+</html>
